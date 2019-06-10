@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="text/html; charst=utf8">
+        <meta name="language" content="zh-CN">
+        <link rel="stylesheet" type="text/css" href="../../smartInput.css">
+        <link rel="stylesheet" type="text/css" href="./input.css">
+    </head>
+    <body>
+        <div id="demos">
+            <h1>智能输入框</h1>
+            <p>类似select标签，但能够支持输入框的过滤和多选功能</p>
+            <h2>代码演示</h2>
+            <section>
+                <div class="section-demo">
+                    <smart-input :props="provinceList1" @collect="collectProvince1"></smart-input>
+                    <div class="input-value">当前值：<span class="description">{{province1}}</span></div>
+                </div>
+                <div class="section-description">
+                    <div>
+                        <h4>基本用法</h4>
+                        <p>简单的输入框，支持数据的列举，支持鼠标点选和键盘控制。</p>
+                    </div>
+                    <span class="code-expand-icon">代码</span>
+                </div>
+                <div class="section-code">
+                    <pre v-pre><code>
+&lt;template&gt;
+    &lt;div id="demo"&gt;
+        &lt;smart-input :props="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+const provinceList = ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省','黑龙江省','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','海南省','四川省','贵州省','云南省','陕西省','甘肃省','青海省','台湾省','内蒙古自治区','广西壮族自治区','西藏自治区','宁夏回族自治区','新疆维吾尔自治区','香港特别行政区','澳门特别行政区'];
+const vueDemo = new Vue({
+    el: '#demo',
+    data: {
+        provinceList: {
+            list: provinceList,
+        }
+    },
+    methods: {
+        // 跟智能输入框同步选中的省份
+        collectProvince(data) {
+            console.log(data);
+        }
+    }
+});
+&lt;/script&gt;
+                    </code></pre>
+                </div>
+            </section>
+            <section>
+                <div class="section-demo">
+                    <smart-input :props="provinceList2" @collect="collectProvince2"></smart-input>
+                    <div class="input-value">当前值：<span class="description">{{province2}}</span></div>
+                </div>
+                <div class="section-description">
+                    <div>
+                        <h4>支持多选</h4>
+                        <p>通过添加<code>multiple: true</code>配置来支持多选。</p>
+                    </div>
+                    <span class="code-expand-icon">代码</span>
+                </div>
+                <div class="section-code">
+                    <pre>
+&lt;template&gt;
+    &lt;div id="demo"&gt;
+        &lt;smart-input :props="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+const provinceList = ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省','黑龙江省','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','海南省','四川省','贵州省','云南省','陕西省','甘肃省','青海省','台湾省','内蒙古自治区','广西壮族自治区','西藏自治区','宁夏回族自治区','新疆维吾尔自治区','香港特别行政区','澳门特别行政区'];
+const vueDemo = new Vue({
+    el: '#demo',
+    data: {
+        provinceList: {
+            list: provinceList,
+            // 支持参数多选
+            multiple: true
+        }
+    },
+    methods: {
+        // 跟智能输入框同步选中的省份
+        collectProvince(data) {
+            console.log(data);
+        }
+    }
+});
+&lt;/script&gt;
+                    </pre>
+                </div>
+            </section>
+            <section>
+                <div class="section-demo">
+                    <smart-input :props="provinceList3" @collect="collectProvince3"></smart-input>
+                    <div class="input-value">当前值：<span class="description">{{province3}}</span></div>
+                </div>
+                <div class="section-description">
+                    <div>
+                        <h4>支持初始值</h4>
+                        <p>通过传入<code>value: 'init-data'</code>来支持初始值。</p>
+                    </div>
+                    <span class="code-expand-icon">代码</span>
+                </div>
+                <div class="section-code">
+                    <pre>
+&lt;template&gt;
+    &lt;div id="demo"&gt;
+        &lt;smart-input :props="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+const provinceList = ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省','黑龙江省','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','海南省','四川省','贵州省','云南省','陕西省','甘肃省','青海省','台湾省','内蒙古自治区','广西壮族自治区','西藏自治区','宁夏回族自治区','新疆维吾尔自治区','香港特别行政区','澳门特别行政区'];
+const vueDemo = new Vue({
+    el: '#demo',
+    data: {
+        provinceList: {
+            list: provinceList,
+            // 支持数据初始化
+            value: 'init-data'
+        }
+    },
+    methods: {
+        // 跟智能输入框同步选中的省份
+        collectProvince(data) {
+            console.log(data);
+        }
+    }
+});
+&lt;/script&gt;
+                    </pre>
+                </div>
+            </section>
+        </div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="../../smartInput.js"></script>
+    <script src="./input.js"></script>
+</html>

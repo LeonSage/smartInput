@@ -3,7 +3,8 @@ Vue.component('smart-input', {
     template: `<div class="friendSearchContainer">
         <input v-model="input" class="form-control smartInput"
             placeholder="输入文本自动检索，上下键选取，回车选中，可点选"
-            data-toggle="tooltip" @click="init" @keydown="search" @blur="blur" />
+            @click="init" @keydown="search" @blur="blur" />
+        <div v-if="invalidData" class="invalid-msg">{{invalidData}}</div>
         <ul v-show="searching" class="friendSearchList">
             <p v-if="!filtered.length">空数据</p>
             <li v-else v-for="(item, index) in filtered" @click.stop="clickOne">{{ item }}</li>
@@ -16,7 +17,7 @@ Vue.component('smart-input', {
         return {
             searching: false,
             timer: null,
-            filtered: {},
+            filtered: [],
             input: '',
             focusIndex: 0,
             invalidData: ''
@@ -48,10 +49,13 @@ Vue.component('smart-input', {
         },
         // 在上下键索引后调整视口
         scrollViewport() {
-            let ul = $(this.$el).find('ul');
-            ul.find('li.hover').removeClass('hover');
-            ul.find('li').eq(this.focusIndex).addClass('hover');
-            $('.friendSearchList').scrollTop(this.focusIndex * 26 - 26);
+            const ul = this.$el.querySelector('ul');
+            const activeHoverLi = ul.querySelector('li.hover');
+            if (activeHoverLi) {
+                activeHoverLi.classList.remove('hover');
+            }
+            ul.querySelectorAll('li')[this.focusIndex].classList.add('hover');
+            this.$el.querySelector('.friendSearchList').scrollTop = (this.focusIndex - 1) * 26;
         },
         // 联想搜索的主体功能函数，这里使用keydown是为了保证持续性的上下键能够保证执行
         search(e) {
@@ -84,54 +88,44 @@ Vue.component('smart-input', {
                 }, 800);
             }
         },
-        clickOne(e) {
-            let target = $((e || event).target);
-            clearTimeout(this.timer);
-            e = e || window.event;
-            let value = target.text();
-            this.focusIndex = target.index();
+        // 触发选中事件
+        chooseOne(target) {
+            const value = target.innerText;
             if (this.props.multiple) {
                 let arr = this.input.split(',');
-                let has = target.hasClass('active');
+                let has = target.classList.contains('active');
                 if (has) {
-                    target.removeClass('active');
+                    target.classList.remove('active');
                     let index = arr.indexOf(value);
                     arr.splice(index, 1);
                     this.input = arr.join(',');
                 } else {
-                    target.addClass('active');
+                    target.classList.add('active');
                     arr.splice(arr.length - 1, 1, value);
                     this.input = arr.join(',') + ',';
                 }
             } else {
-                target.addClass('active').siblings('li').removeClass('active');
+                const child = target.parentNode.children;
+                [...child].forEach(item => {
+                    item.classList.remove('active');
+                });
+                target.classList.add('active');
                 this.input = value;
                 this.searching = false;
             }
         },
-        // 选择一个参数
+        // 鼠标点击一个选项
+        clickOne(e) {
+            let target = e.target;
+            clearTimeout(this.timer);
+            this.focusIndex = [].indexOf.call(target.parentElement.children, target);
+            this.chooseOne(target);
+        },
+        // 键盘选择一个选项
         selectOne(e) {
             clearTimeout(this.timer);
-            let target = $(this.$el).find('ul li').eq(this.focusIndex);
-            let value = target.text();
-            if (this.props.multiple) {
-                let arr = this.input.split(',');
-                let has = target.hasClass('active');
-                if (has) {
-                    target.removeClass('active');
-                    let index = arr.indexOf(value);
-                    arr.splice(index, 1);
-                    this.input = arr.join(',');
-                } else {
-                    target.addClass('active');
-                    arr.splice(arr.length - 1, 1, value);
-                    this.input = arr.join(',') + ',';
-                }
-            } else {
-                target.addClass('active').siblings('li').removeClass('active');
-                this.input = value;
-                this.searching = false;
-            }
+            const target = this.$el.querySelectorAll('ul li')[this.focusIndex];
+            this.chooseOne(target);
         }
     },
     watch: {
@@ -145,16 +139,12 @@ Vue.component('smart-input', {
                         invalidData.push(item);
                     }
                 });
-                let $input = $('input', $(this.$el));
                 if (invalidData.length) {
-                    $input.attr('title', invalidData.join(',') + '数据不合法');
-                    $input.tooltip();
-                } else {
-                    $input.tooltip('hide');
+                    this.invalidData = invalidData.join(',') + '数据不合法';
                 }
             }
             // 触发标签内声明的sync函数，用于传递数据给父组件
-            this.$emit('sync', this.input);
+            this.$emit('collect', this.input);
         }
     }
 });

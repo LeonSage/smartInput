@@ -1,0 +1,46 @@
+@media screen and (min-width: 900px) {
+    #demos {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+@media screen and (max-width: 900px) {
+    #demos {
+        margin: 0 auto;
+    }
+}
+#demos section{
+    border-bottom: 1px solid #ebedf0;
+    border: 1px solid lightsteelblue;
+    border-radius: 2px;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    margin: 0 0 16px;
+    transition: all 0.2s;
+    color: rgba(0, 0, 0, 0.65);
+}
+#demos section .section-demo {
+    padding: 42px 24px;
+}
+#demos section .section-description, #demos section .section-code{
+    padding: 12px 24px;
+    border-top: 1px solid #ebedf0;
+    position: relative;
+    overflow: scroll;
+}
+#demos section .input-value {
+    padding: 12px 0;
+}
+#demos section .code-expand-icon {
+    position: absolute;
+    right: 16px;
+    bottom: 23px;
+    cursor: pointer;
+    width: 24px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    color: cornflowerblue;
+    font-size: 12px;
+}
