@@ -1,0 +1,41 @@
+// smartInput输入框需要的样式表
+.friendSearchContainer {
+    position: relative;
+}
+.friendSearchList {
+    width: 100%;
+    padding: 6px 12px;
+    overflow-y: scroll;
+    max-height: 300px;
+    background: #fff;
+    z-index: 10;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .2);
+    border: 1px solid #ccc;
+    position: absolute;
+}
+.friendSearchList li {
+    padding: 3px 12px;
+}
+.friendSearchList li:hover {
+    background-color: #36bc7f;
+    color: #fff;
+}
+.friendSearchList li.active {
+    background: #337ab7;
+    color: #fff;
+}
+.friendSearchList li.hover {
+    background-color: #36bc7f;
+    color: #fff;
+}
+.friendSearchList li.active:hover {
+    background-color: #36bc7f;
+}
+.friendSearchModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
