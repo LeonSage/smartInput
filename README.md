@@ -14,6 +14,12 @@
  具体示例参考：demo/base-input
 
 ## 更新日志
+### 2019-06-11
+1. 新增数据的徽章展示方式：`dataDisplay: 'badge'`
+1. 优化搜索逻辑，降低搜索的延时
+1. 拆分组件传参，现在使用`v-bind="provinceList"`
+1. 返回的
+
 ### 2019-06-10
 1. 取消依赖jQuery和bootstrap
 1. 上传到github进行代码管理
@@ -46,7 +52,8 @@
 provinceList: {
     list: ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省'],
     multiple: true,
-    value: '我是初始值'
+    value: '我是初始值',
+    dataDisplay: 'badge' || 'text'（默认）
 },
 ```
 同时需要提供一个函数用于支持数据收集和回传：
