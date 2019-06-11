@@ -12,7 +12,7 @@
  7. 以逗号进行多选的分割
  1. 支持徽章的展示方式
  
- 具体示例参考：demo/base-input
+ 具体示例参考：https://leonsage.github.io/smartInput/demo/base-input/input.html
 
 ## 更新日志
 ### 2019-06-11
