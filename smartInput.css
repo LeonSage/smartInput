@@ -1,9 +1,17 @@
+/* smartInput输入框需要的样式表 */
+.friendSearchContainer input,
+.friendSearchContainer ul,
+.friendSearchContainer li,
+.friendSearchContainer div {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 /* 基于bootstrap的样式引入 */
-.form-control {
+.friendSearchContainer .smartInput-input {
     display: block;
     width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
+    padding: .3rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -13,14 +21,6 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-/* smartInput输入框需要的样式表 */
-.friendSearchContainer input,
-.friendSearchContainer ul,
-.friendSearchContainer li,
-.friendSearchContainer div {
-    box-sizing: border-box;
-    margin: 0;
 }
 .friendSearchContainer {
     position: relative;
@@ -68,4 +68,37 @@
 }
 .friendSearchContainer .invalid-msg:before {
     content: '错误提示：';
+}
+.smartInput-badge-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.friendSearchContainer .smartInput-badge {
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    cursor: default;
+    max-width: 99%;
+    position: relative;
+    overflow: hidden;
+    transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    margin-right: .5rem;
+    margin-bottom: .5rem;
+    padding: .4rem;
+    font-size: .9em;
+    line-height: .9em;
+    display: flex;
+    align-items: center;
+}
+.smartInput-badge-icon {
+    cursor: pointer;
+    color: #ccc;
+}
+.smartInput-badge-icon:hover {
+    color: #999;
+}
+.smartInput-search {
+    border: 0;
+    outline: none;
 }

@@ -13,7 +13,7 @@
             <h2>代码演示</h2>
             <section>
                 <div class="section-demo">
-                    <smart-input :props="provinceList1" @collect="collectProvince1"></smart-input>
+                    <smart-input v-bind="provinceList1" @collect="collectProvince1"></smart-input>
                     <div class="input-value">当前值：<span class="description">{{province1}}</span></div>
                 </div>
                 <div class="section-description">
@@ -27,7 +27,7 @@
                     <pre v-pre><code>
 &lt;template&gt;
     &lt;div id="demo"&gt;
-        &lt;smart-input :props="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+        &lt;smart-input v-bind="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 
@@ -53,7 +53,7 @@ const vueDemo = new Vue({
             </section>
             <section>
                 <div class="section-demo">
-                    <smart-input :props="provinceList2" @collect="collectProvince2"></smart-input>
+                    <smart-input v-bind="provinceList2" @collect="collectProvince2"></smart-input>
                     <div class="input-value">当前值：<span class="description">{{province2}}</span></div>
                 </div>
                 <div class="section-description">
@@ -67,7 +67,7 @@ const vueDemo = new Vue({
                     <pre>
 &lt;template&gt;
     &lt;div id="demo"&gt;
-        &lt;smart-input :props="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+        &lt;smart-input v-bind="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 
@@ -95,7 +95,7 @@ const vueDemo = new Vue({
             </section>
             <section>
                 <div class="section-demo">
-                    <smart-input :props="provinceList3" @collect="collectProvince3"></smart-input>
+                    <smart-input v-bind="provinceList3" @collect="collectProvince3"></smart-input>
                     <div class="input-value">当前值：<span class="description">{{province3}}</span></div>
                 </div>
                 <div class="section-description">
@@ -109,7 +109,7 @@ const vueDemo = new Vue({
                     <pre>
 &lt;template&gt;
     &lt;div id="demo"&gt;
-        &lt;smart-input :props="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+        &lt;smart-input v-bind="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 
@@ -135,9 +135,52 @@ const vueDemo = new Vue({
                     </pre>
                 </div>
             </section>
+            <section>
+                <div class="section-demo">
+                    <smart-input v-bind="provinceList4" @collect="collectProvince4"></smart-input>
+                    <div class="input-value">当前值：<span class="description">{{province4}}</span></div>
+                </div>
+                <div class="section-description">
+                    <div>
+                        <h4>使用徽章的方式展示选择的项</h4>
+                        <p>通过传入<code>dataDisplay: 'badge'</code>来支持用徽章展示，默认值：text。</p>
+                    </div>
+                    <span class="code-expand-icon">代码</span>
+                </div>
+                <div class="section-code">
+                    <pre>
+&lt;template&gt;
+    &lt;div id="demo"&gt;
+        &lt;smart-input v-bind="provinceList" @collect="collectProvince"&gt;&lt;/smart-input&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+const provinceList = ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省','黑龙江省','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','海南省','四川省','贵州省','云南省','陕西省','甘肃省','青海省','台湾省','内蒙古自治区','广西壮族自治区','西藏自治区','宁夏回族自治区','新疆维吾尔自治区','香港特别行政区','澳门特别行政区'];
+const vueDemo = new Vue({
+    el: '#demo',
+    data: {
+        provinceList: {
+            list: provinceList,
+            multiple: true,
+            // 支持数据用徽章的方式展示
+            dataDisplay: 'badge'
+        }
+    },
+    methods: {
+        // 跟智能输入框同步选中的省份
+        collectProvince(data) {
+            console.log(data);
+        }
+    }
+});
+&lt;/script&gt;
+                    </pre>
+                </div>
+            </section>
         </div>
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
     <script src="../../smartInput.js"></script>
     <script src="./input.js"></script>
 </html>
