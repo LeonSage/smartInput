@@ -169,7 +169,7 @@ Vue.component('smart-input', {
                 }
             }
             // 触发标签内声明的sync函数，用于传递数据给父组件
-            this.$emit('collect', this.selected.join(','));
+            this.$emit('collect', this.selected);
         },
         searchString(val) {
             if (val === '') {
