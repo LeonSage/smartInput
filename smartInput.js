@@ -1,7 +1,7 @@
 // 智能输入框Vue组件
 Vue.component('smart-input', {
     template: `<div class="friendSearchContainer">
-        <div v-if="dataDisplay==='badge'" contenteditable="true" class="smartInput-input smartInput"
+        <div v-if="multiple===true" contenteditable="true" class="smartInput-input smartInput"
             placeholder="输入文本自动检索，上下键选取，回车选中，可点选"
             @click="initBadgeInput"
             >
@@ -13,13 +13,13 @@ Vue.component('smart-input', {
                     </span>
                 </li>
                 <li class="smartInput-badge">
-                    <input v-model="searchString" @blur="blur" @keydown="keyboardDown" class="smartInput-search" />
+                    <input v-model="searchString" @blur="blur" @keyup="keyboardDown" class="smartInput-search" />
                 </li>
             </ul>
         </div>
-        <input v-else v-model="input" class="smartInput-input smartInput"
+        <input v-else v-model="searchString" class="smartInput-input smartInput"
             placeholder="输入文本自动检索，上下键选取，回车选中，可点选"
-            @click="init" @keydown="keyboardDown" @blur="blur" />
+            @click="init" @keyup="keyboardDown" @blur="blur" />
         <div v-if="invalidData" class="invalid-msg">{{invalidData}}</div>
         <ul v-show="searching" class="friendSearchList">
             <p v-if="!filtered.length">空数据</p>
@@ -54,7 +54,17 @@ Vue.component('smart-input', {
     },
     mounted() {
         // 支持初始化参数值
-        this.input = this.value || '';
+        if (this.multiple === true && typeof this.value === 'object' && this.value.length) {
+            this.selected = this.value.filter(item => {
+                return this.list.includes(item);
+            });
+            this.searchString = '';
+        } else if (this.value) {
+            if (this.list.includes(this.value)) {
+                this.searchString = this.value;
+                this.selected = [this.value];
+            }
+        }
         this.filtered = this.list;
     },
     methods: {
@@ -103,10 +113,6 @@ Vue.component('smart-input', {
                 if (preSearching && this.focusIndex < this.listLength) {
                     this.selectOne();
                 }
-            } else {
-                Vue.nextTick(() => {
-                    this.searchString = this.key;
-                });
             }
         },
         // 过滤
@@ -135,8 +141,10 @@ Vue.component('smart-input', {
                 }
             } else {
                 this.selected = [value];
-                
                 this.searching = false;
+                if (!this.multiple) {
+                    this.searchString = value;
+                }
             }
         },
         // 鼠标点击一个选项
@@ -154,23 +162,6 @@ Vue.component('smart-input', {
         }
     },
     watch: {
-        input(val) {
-            let inputArr = val.split(',');
-            if (this.multiple) {
-                inputArr.pop();
-                let invalidData = [];
-                inputArr.forEach(item => {
-                    if (!this.list.includes(item)) {
-                        invalidData.push(item);
-                    }
-                });
-                if (invalidData.length) {
-                    this.invalidData = invalidData.join(',') + '数据不合法';
-                }
-            }
-            // 触发标签内声明的sync函数，用于传递数据给父组件
-            this.$emit('collect', this.selected);
-        },
         searchString(val) {
             if (val === '') {
                 this.filtered = this.list;
@@ -182,7 +173,15 @@ Vue.component('smart-input', {
             this.input = this.selected.join(',');
             if (this.multiple) {
                 this.input += ',';
-            }
+                this.$emit('collect', this.selected);
+                this.$emit('collect', val);
+            } else {
+                if (this.list.includes(this.searchString)) {
+                    this.$emit('collect', this.searchString);
+                } else {
+                    this.$emit('collect', '');
+                }
+            } 
         }
     }
 });

@@ -14,15 +14,10 @@ const provinceList = ['北京市','天津市','上海市','重庆市','河北省
             province2: '',
             provinceList3: {
                 list: provinceList,
-                value: 'init-data'
-            },
-            province3: '',
-            provinceList4: {
-                list: provinceList,
                 multiple: true,
-                dataDisplay: 'badge'
+                value: ['河南省', '错误值']
             },
-            province4: '',
+            province3: ''
         },
         methods: {
             // 跟智能输入框同步选中的业务
@@ -34,9 +29,6 @@ const provinceList = ['北京市','天津市','上海市','重庆市','河北省
             },
             collectProvince3(data) {
                 this.province3 = data;
-            },
-            collectProvince4(data) {
-                this.province4 = data;
-            },
+            }
         }
     });

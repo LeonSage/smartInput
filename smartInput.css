@@ -91,6 +91,9 @@
     display: flex;
     align-items: center;
 }
+.friendSearchContainer .smartInput-badge:last-child {
+    border: 0;
+}
 .smartInput-badge-icon {
     cursor: pointer;
     color: #ccc;

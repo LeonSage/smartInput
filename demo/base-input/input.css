@@ -29,6 +29,9 @@
     position: relative;
     overflow: scroll;
 }
+#demos section .section-description-title {
+    color: steelblue;
+}
 #demos section .input-value {
     padding: 12px 0;
 }
