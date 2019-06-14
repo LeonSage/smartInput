@@ -21,7 +21,7 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    z-index: 10;
+    z-index: 9;
     position: relative;
 }
 .friendSearchContainer {
@@ -40,10 +40,6 @@
 }
 .friendSearchList li {
     padding: 3px 12px;
-}
-.friendSearchList li:hover {
-    background-color: #36bc7f;
-    color: #fff;
 }
 .friendSearchList li.smartInput-active {
     background: #337ab7;
