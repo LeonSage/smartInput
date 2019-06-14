@@ -46,7 +46,9 @@ Vue.component('smart-input', {
                 <p v-if="!filtered.length">空数据</p>
                 <li v-else v-for="(item, index) in filtered"
                     :class="{'smartInput-active': selected.includes(item)}"
-                    @click.stop="clickOne">{{ item }}
+                    @click.stop="clickOne"
+                    @mouseover="hoverOn"
+                >{{ item }}
                 </li>
             </ul>
             <div v-show="searching" class="friendSearchModal" @click="searching=false"></div>
@@ -106,15 +108,11 @@ Vue.component('smart-input', {
         // 调整联想搜索面板的大小和位置
         init(e) {
             this.searching = true;
-            // this.filtered = this.list;
             this.$emit('focus');
-            // 单选是点击清空选项
-            if (!this.multiple) {
-                this.searchString = '';
-            }
         },
         // 调整联想搜索面板的大小和位置
         initBadgeInput(e) {
+            clearTimeout(this.timer);
             this.$emit('focus');
             this.searching = true;
             this.$el.querySelector('.smartInput-search').focus();
@@ -135,6 +133,15 @@ Vue.component('smart-input', {
             }
             ul.querySelectorAll('li')[this.focusIndex].classList.add('hover');
             this.$el.querySelector('.friendSearchList').scrollTop = (this.focusIndex - 1) * 26;
+        },
+        // 鼠标hover到下拉list
+        hoverOn(e) {
+            const ul = this.$el.querySelector('.friendSearchList');
+            const activeHoverLi = ul.querySelector('li.hover');
+            if (activeHoverLi) {
+                activeHoverLi.classList.remove('hover');
+            }
+            e.target.classList.add('hover');
         },
         // 联想搜索的主体功能函数，这里使用keydown是为了保证持续性的上下键能够保证执行
         keyboardDown(e) {
@@ -183,15 +190,14 @@ Vue.component('smart-input', {
             } else {
                 this.selected = [value];
                 this.searching = false;
-                if (!this.multiple) {
-                    this.searchString = value;
-                }
+                this.searchString = value;
             }
         },
         // 鼠标点击一个选项
         clickOne(e) {
             let target = e.target;
             clearTimeout(this.timer);
+            this.searching = true;
             this.focusIndex = [].indexOf.call(target.parentElement.children, target);
             this.chooseOne(target);
         },
@@ -216,7 +222,24 @@ Vue.component('smart-input', {
                         this.selected = [];
                     }
                     this.filtered = this.list;
-                } else {
+                }
+                // 自动分词
+                else if (val.includes(',')) {
+                    let arr = val.split(',');
+                    let invalidArr = [];
+                    let flag = false;
+                    arr.forEach(item => {
+                        if (this.list.includes(item)) {
+                            this.selected.push(item);
+                            flag = true;
+                        }
+                        else {
+                            invalidArr.push(item);
+                        }
+                    })
+                    flag && (this.searchString = invalidArr.join(','));
+                }
+                else {
                     this.filterData(val);
                 }
             }, 200);

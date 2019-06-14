@@ -41,10 +41,6 @@
 .friendSearchList li {
     padding: 3px 12px;
 }
-.friendSearchList li:hover {
-    background-color: #36bc7f;
-    color: #fff;
-}
 .friendSearchList li.smartInput-active {
     background: #337ab7;
     color: #fff;
