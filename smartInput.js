@@ -13,9 +13,9 @@ Vue.component('smart-input', {
                 v-if="multiple===true"
                 contenteditable="true"
                 class="smartInput-input smartInput"
-                :placeholder="placeholder"
                 @click="initBadgeInput"
             >
+                <div v-show="!selected.length" class="smart-placeholder">{{placeholder}}</div>
                 <ul class="smartInput-badge-list">
                     <li v-for="item in selected" class="smartInput-badge">
                         <span>{{item}}</span>
@@ -26,7 +26,7 @@ Vue.component('smart-input', {
                     <li class="smartInput-badge">
                         <input
                             v-model="searchString"
-                            @keyup="keyboardDown"
+                            @keydown="keyboardDown"
                             class="smartInput-search"
                             v-focus
                             ref="autoFocus"
@@ -38,7 +38,7 @@ Vue.component('smart-input', {
             <input v-else v-model="searchString" class="smartInput-input smartInput"
                 :placeholder="placeholder"
                 @click="init"
-                @keyup="keyboardDown"
+                @keydown="keyboardDown"
                 @blur="blur"
             />
             <div v-if="invalidData" class="invalid-msg">{{invalidData}}</div>
@@ -122,7 +122,6 @@ Vue.component('smart-input', {
         },
         // 失去焦点时关闭面板，主要是按下tab键切换时的作用，随之带来的是所有相关的事件都要清除该定时器
         blur() {
-            console.log('blur');
             this.timer = setTimeout(() => {
                 this.searching = false;
             }, 200);
@@ -165,6 +164,8 @@ Vue.component('smart-input', {
                 if (preSearching && this.focusIndex < this.listLength) {
                     this.selectOne();
                 }
+            } else if (e.key === 'Backspace' && this.searchString === '' && this.multiple) {
+                this.selected.splice(-1, 1);
             }
         },
         // 过滤
@@ -174,12 +175,11 @@ Vue.component('smart-input', {
                 return item.toLowerCase().includes(str.toLowerCase());
             });
             this.focusIndex = 0;
-            
         },
         // 触发选中事件
         chooseOne(target) {
             const value = target.innerText;
-            if (value.includes(this.searchString)) {
+            if (value.toLowerCase().includes(this.searchString.toLowerCase())) {
                 this.searchString = '';
             }
             if (this.multiple) {
@@ -243,7 +243,7 @@ Vue.component('smart-input', {
                         else if (!this.list.includes(item)) {
                             invalidArr.push(item);
                         }
-                    })
+                    });
                     flag && (this.searchString = invalidArr.join(','));
                 }
                 else {
@@ -271,8 +271,8 @@ Vue.component('smart-input', {
     directives: {
         focus: {
             // 指令的定义
-            inserted: function (el) {
-                el.focus()
+            inserted(el) {
+                el.focus();
             }
         }
     }
