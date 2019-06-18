@@ -15,7 +15,7 @@ Vue.component('smart-input', {
                 class="smartInput-input smartInput"
                 @click="initBadgeInput"
             >
-                <div v-show="!selected.length" class="smart-placeholder">{{placeholder}}</div>
+                <div v-show="!selected.length && !searchString" class="smart-placeholder">{{placeholder}}</div>
                 <ul class="smartInput-badge-list">
                     <li v-for="item in selected" class="smartInput-badge">
                         <span>{{item}}</span>
